@@ -12,7 +12,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "SwiftLocation",
-            targets: ["SwiftLocation"]
+            targets: ["SwiftLocation", "SwiftLocationAppClip"]
         ),
         .library(
             name: "SwiftLocation-Dynamic",
@@ -40,6 +40,11 @@ let package = Package(
             name: "SwiftLocation",
             dependencies: [],
             path: "Sources/SwiftLocation"
+        ),
+        .target(
+            name: "SwiftLocationAppClip",
+            dependencies: [.target(name: "SwiftLocation")],
+            swiftSettings: [.define("APPCLIP")]
         ),
         .target(
             name: "SwiftLocationBeaconBroadcaster",
