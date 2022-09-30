@@ -134,7 +134,9 @@ public enum DataDiscardReason: CustomStringConvertible {
 /// - `onlyInUse`: authorization only in use.
 public enum AuthorizationMode: String, CustomStringConvertible {
     case plist
+    #if !APPCLIP
     case always
+    #endif
     case onlyInUse
     
     public var description: String {

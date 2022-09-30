@@ -67,6 +67,7 @@ internal extension CLLocationManager {
     /// Ask for authorization.
     /// - Parameter mode: style.
     func requestAuthorization(_ mode: AuthorizationMode) {
+        #if !APPCLIP
         switch mode {
         case .always:
             requestAlwaysAuthorization()
@@ -75,6 +76,9 @@ internal extension CLLocationManager {
         case .plist:
             requestPlistAuthorization()
         }
+        #else
+            requestWhenInUseAuthorization()
+        #endif
     }
     
     /// Apply settings to location manager.
@@ -109,7 +113,7 @@ internal extension CLLocationManager {
     }
     
     // MARK: - Private Functions
-    
+    #if !APPCLIP
     /// Check the authorization based upon the plist.
     private func requestPlistAuthorization() {
         if #available(iOS 14.0, *) {
@@ -131,6 +135,7 @@ internal extension CLLocationManager {
             requestWhenInUseAuthorization()
         }
     }
+    #endif
     
 }
 

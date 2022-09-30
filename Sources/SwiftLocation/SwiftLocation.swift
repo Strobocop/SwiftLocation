@@ -487,7 +487,7 @@ public class LocationManager: LocationManagerDelegate, CustomStringConvertible {
         }
         
         failWeakAuthorizationRequests()
-        
+                
         /// If at least one geofencing request is in progress we want to ask for always authorization,
         /// otherwise we can use the preferred authorization mode specified.
         let hasRequestsWithAlwaysAuthRequired = (
@@ -495,7 +495,13 @@ public class LocationManager: LocationManagerDelegate, CustomStringConvertible {
             visitsRequest.hasActiveRequests ||
             beaconsRequests.hasActiveRequests
         )
+        #if !APPCLIP
         let authMode: AuthorizationMode = (hasRequestsWithAlwaysAuthRequired ? .always : preferredAuthorizationMode)
+        #else
+        let authMode: AuthorizationMode = .onlyInUse
+        #endif
+        
+        
         manager?.requestAuthorization(authMode) { [weak self] auth in
             guard auth.isAuthorized else {
                 return
