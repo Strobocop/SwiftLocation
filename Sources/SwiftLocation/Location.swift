@@ -229,13 +229,9 @@ public final class Location {
         switch permission {
         case .whenInUse:
             return try await requestWhenInUsePermission()
-        #if !os(tvOS)
+        #if !os(tvOS) && !APPCLIP
         case .always:
-            #if APPCLIP
-            return try await requestWhenInUsePermission()
-            #else
             return try await requestAlwaysPermission()
-            #endif
         #endif
         }
     }
@@ -466,7 +462,7 @@ public final class Location {
         }
     }
     
-    #if !os(tvOS)
+    #if !os(tvOS) && !APPCLIP
     /// Request authorization to get location both in foreground and background.
     ///
     /// - Returns: authorization obtained.

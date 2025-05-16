@@ -58,7 +58,7 @@ public protocol LocationManagerProtocol {
     func validatePlistConfigurationForTemporaryAccuracy(purposeKey: String) throws
     func requestWhenInUseAuthorization()
     
-    #if !os(tvOS)
+    #if !os(tvOS) && !APPCLIP
     func requestAlwaysAuthorization()
     #endif
     func requestTemporaryFullAccuracyAuthorization(withPurposeKey purposeKey: String, completion: ((Error?) -> Void)?)

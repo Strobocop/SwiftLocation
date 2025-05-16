@@ -39,7 +39,7 @@ extension CLLocationManager: LocationManagerProtocol {
     /// - Parameter permission: permission you would to obtain.
     public func validatePlistConfigurationOrThrow(permission: LocationPermission) throws {
         switch permission {
-        #if !os(tvOS)
+        #if !os(tvOS) && !APPCLIP
         case .always:
             if !Bundle.hasAlwaysAndWhenInUsePermission() {
                 throw LocationErrors.plistNotConfigured
@@ -102,8 +102,9 @@ extension CLAuthorizationStatus: CustomStringConvertible {
 // MARK: - Foundation Extensions
 
 extension Bundle {
-    
+    #if !APPCLIP
     private static let alwaysAndWhenInUse = "NSLocationAlwaysAndWhenInUseUsageDescription"
+    #endif
     private static let whenInUse = "NSLocationWhenInUseUsageDescription"
     private static let temporary = "NSLocationTemporaryUsageDescriptionDictionary"
     
@@ -120,9 +121,11 @@ extension Bundle {
         !(Bundle.main.object(forInfoDictionaryKey: whenInUse) as? String ?? "").isEmpty
     }
     
+    #if !APPCLIP
     static func hasAlwaysAndWhenInUsePermission() -> Bool {
         !(Bundle.main.object(forInfoDictionaryKey: alwaysAndWhenInUse) as? String ?? "").isEmpty
     }
+    #endif
     
 }
 
